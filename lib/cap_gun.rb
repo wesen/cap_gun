@@ -1,4 +1,4 @@
-require 'active_support'
+require 'action_mailer'
 
 begin
   # This requires the full active_support.
@@ -10,8 +10,6 @@ rescue
   # Do nothing, everything should be included
   # by default in older versions of ActiveSupport.
 end
-
-require 'action_mailer'
 
 require File.join(File.dirname(__FILE__), *%w[cap_gun presenter])
 require File.join(File.dirname(__FILE__), *%w[.. vendor action_mailer_tls lib smtp_tls])
@@ -62,11 +60,14 @@ module CapGun
       def deployment_notification(capistrano)
         presenter = Presenter.new(capistrano)
         
-        content_type "text/plain"
-        from         presenter.from
-        recipients   presenter.recipients
-        subject      presenter.subject
-        body         presenter.body
+        settings = { :from => presenter.from,
+          :to => presenter.recipients,
+          :subject => presenter.subject,
+          :content_type => "text/plain"
+        }
+        mail(settings) do |format|
+          format.text { render :text => presenter.body }
+        end
       end
     end
     
@@ -80,10 +81,10 @@ if Object.const_defined?("Capistrano")
       desc "Send notification of the current release and the previous release via email."
       task :email, :roles => :app do
         CapGun::Mailer.load_mailer_config(self)
-        if CapGun::Mailer.respond_to?(:deployment_notification)
-          CapGun::Mailer.deployment_notification(self).deliver
+        if CapGun::Mailer.respond_to?(:deliver_deployment_notification)
+          CapGun::Mailer.deliver_deployment_notification(self)
         else
-          CapGun::Mailer.deliver_deployment_notification(self)          
+          CapGun::Mailer.deployment_notification(self).deliver
         end
       end
     end

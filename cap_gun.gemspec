@@ -57,19 +57,22 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
-      s.add_runtime_dependency(%q<activesupport>, [">= 0"])
-      s.add_runtime_dependency(%q<actionmailer>, [">= 0"])
+      print "foobar1"
+      s.add_runtime_dependency(%q<activesupport>, ["< 3.2.0"])
+      s.add_runtime_dependency(%q<actionmailer>, ["< 3.2.0"])
       s.add_development_dependency(%q<micronaut>, [">= 0"])
       s.add_development_dependency(%q<mocha>, [">= 0"])
     else
-      s.add_dependency(%q<activesupport>, [">= 0"])
-      s.add_dependency(%q<actionmailer>, [">= 0"])
+      print "foobar2"
+      s.add_dependency(%q<activesupport>, ["< 3.2.0"])
+      s.add_dependency(%q<actionmailer>, ["< 3.2.0"])
       s.add_dependency(%q<micronaut>, [">= 0"])
       s.add_dependency(%q<mocha>, [">= 0"])
     end
   else
-    s.add_dependency(%q<activesupport>, [">= 0"])
-    s.add_dependency(%q<actionmailer>, [">= 0"])
+      print "foobar3"
+    s.add_dependency(%q<activesupport>, ["< 3.2.0"])
+    s.add_dependency(%q<actionmailer>, ["< 3.2.0"])
     s.add_dependency(%q<micronaut>, [">= 0"])
     s.add_dependency(%q<mocha>, [">= 0"])
   end

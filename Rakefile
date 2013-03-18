@@ -7,8 +7,8 @@ begin
     gemspec.homepage = "http://github.com/relevance/cap_gun"
     gemspec.description = 'Super simple capistrano deployment notifications.'
     gemspec.authors = ["Rob Sanheim", "Muness Alrubaie", "Relevance"]
-    gemspec.add_dependency 'activesupport'
-    gemspec.add_dependency 'actionmailer'
+    gemspec.add_dependency 'activesupport', '< 3.2.0'
+    gemspec.add_dependency 'actionmailer', '< 3.2.0'
     gemspec.add_development_dependency "micronaut"
     gemspec.add_development_dependency "mocha"
   end
